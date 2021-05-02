@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title%} Liste des restaurants{% endblock %}
+{% block body %}
+{{ form_start(form) }}
+<div class="form-row align-items-end" >
+<div class="col">
+ {{ form_row(form.NomResto) }}
+</div>
+ <div class="col">
+ <div class="form-group">
+ <button type="submit" class="btn btn-success">Rechercher</button>
+ </div>
+</div>
+</div>
+{{ form_end(form) }}
+{% if articles %}
+ <table id="articles" class="table table-striped">
+ <thead>
+ <tr>
+ <th>IdResto</th>
+ <th>NomResto</th>
+ <th>Adresse</th>
+ <th>Telephone</th>
+ <th>NomChef</th>
+<th>NbEtoile</th>
+<th>Catégorie</th>
+ <th>Actions</th>
+ </tr>
+ </thead>
+ <tbody>
+ {% for restaurant in articles %}
+ <tr>
+ <td class="table-success">{{ restaurant.IdResto }}</td>
+ <td class="table-secondary">{{ restaurant.NomResto }}</td>
+ <td class="table-info">{{ restaurant.Adresse }}</td>
+ <td class="table-warning">{{ restaurant.Telephone }}</td>
+ <td class="table-danger">{{ restaurant.NomChef }}</td>
+ <td class="table-primary">{{ restaurant.NbEtoile }}</td>
+ <td class="table-light">{{ restaurant.menu.entree }}</td>
+ <td>
+ <a href="/restaurant/{{ restaurant.id }}"  class="btn btn-outline-info">Détails</a>
+ {% if is_granted('ROLE_EDITOR') %}
+ <a href="/restaurant/edit/{{ restaurant.id }}" class="btn btn-outline-success"<>Modifier</a>
+ <a href="/restaurant/delete/{{ restaurant.id  }}" class="btn btn-outline-danger" onclick="return confirm('Etesvous sûr de supprimer cet restaurant?');">Supprimer</a>
+{% endif %} 
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table><
+ {% else %}
+ <p>Aucun restaurant</p>
+ {% endif %}
+{% endblock %}
